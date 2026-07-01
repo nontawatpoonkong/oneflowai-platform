@@ -1,0 +1,23 @@
+# Development overrides — applied automatically by `docker compose up`.
+# Enables hot reload, mounts the source tree, and uses console logging.
+services:
+  app:
+    build:
+      target: development
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8000"
+      - --reload
+    environment:
+      APP_ENV: development
+      DEBUG: "true"
+      LOG_JSON: "false"
+      LOG_LEVEL: DEBUG
+    volumes:
+      # Live source; the container's own virtualenv is preserved.
+      - ./:/app
+      - /app/.venv
